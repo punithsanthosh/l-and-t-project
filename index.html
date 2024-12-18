@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Movie Recommender</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+
+   
+    <div class="container">
+        <h1>Movie Recommender System</h1>
+        <form action="/recommend_and_evaluate" method="POST">
+            <h2>Generate Recommendations</h2>
+            <label for="user_id">Enter User ID:</label>
+            <input type="number" id="user_id" name="user_id" required>
+            <br><br>
+            <label for="method">Recommendation Method:</label>
+            <select id="method" name="method">
+                <option value="user">User-Based</option>
+                <option value="item">Item-Based</option>
+            </select>
+            <br><br>
+            <label for="num_recommendations">Number of Recommendations:</label>
+            <input type="number" id="num_recommendations" name="num_recommendations" value="5" required>
+            <br><br>
+            <button type="submit">Get Recommendations and Evaluate</button>
+        </form>
+        
+        {% if error %}
+            <div class="error">
+                {{ error }}
+            </div>
+        {% endif %}
+        
+        {% if recommendations %}
+            <h2>Recommendations for User {{ user_id }} ({{ method }}-based):</h2>
+            <ul>
+                {% for movie in recommendations %}
+                <li>{{ movie }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+        
+        {% if evaluation_results %}
+            <h2>Evaluation Results:</h2>
+            <ul>
+                <li>Precision: {{ evaluation_results["Precision"] }}</li>
+                <li>Recall: {{ evaluation_results["Recall"] }}</li>
+                <li>F1 Score: {{ evaluation_results["F1 Score"] }}</li>
+            </ul>
+        {% endif %}        
+
+    </div>
+
+
+</body>
+</html>
